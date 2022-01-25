@@ -1,5 +1,6 @@
 var tasks = {};
 
+//Create Tasks function
 var createTask = function(taskText, taskDate, taskList) {
   // create elements that make up a task item
   var taskLi = $("<li>").addClass("list-group-item");
@@ -13,11 +14,10 @@ var createTask = function(taskText, taskDate, taskList) {
   // append span and p element to parent li
   taskLi.append(taskSpan, taskP);
 
-
   // append to ul list on the page
   $("#list-" + taskList).append(taskLi);
 };
-
+// Load Tasks function w/in Create Tasks function
 var loadTasks = function() {
   tasks = JSON.parse(localStorage.getItem("tasks"));
 
@@ -33,7 +33,7 @@ var loadTasks = function() {
 
   // loop over object properties
   $.each(tasks, function(list, arr) {
-    console.log(list, arr);
+    // console.log(list, arr); Did not display in Console log
     // then loop over sub-array
     arr.forEach(function(task) {
       createTask(task.text, task.date, list);
@@ -41,10 +41,25 @@ var loadTasks = function() {
   });
 };
 
+
+
+// Save Tasks function
 var saveTasks = function() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
+// None of this worked
+$(".list-group").on("click", "p", function() {
+  var text = $(this)
+    .text()
+    .trim();
+
+    var textInput = $("<textarea>")
+      .addClass("form-control")
+      .val(text);
+
+      $(this).replaceWith(textInput);
+});
 
 
 
