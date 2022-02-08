@@ -149,25 +149,29 @@ $(".list-group").on("blur", "input[type='text']", function() {
   $(this).replaceWith(taskSpan);
 });
 
-// make columns sortable
-$(".card .list-group").sortable({
-  connectWith: $(".card .list-group"),
-  scroll: false,
-  tolerance: "pointer",
-  helper: "clone",
-  activate: function(event) {
-    console.log("activate", this);
-  },
-  deactivate: function(event) {
-    console.log("deactivate", this);
-  },
-  over: function(event) {
-    console.log("over", event.target);
-  },
-  out: function(event) {
-    console.log("out", event.target);
-  },
-  update: function(event) {
+  // make columns sortable
+  $(".card .list-group").sortable({
+    connectWith: $(".card .list-group"),
+    scroll: false,
+    tolerance: "pointer",
+    helper: "clone",
+    activate: function(event) {
+      console.log("activate", this);
+    },
+    deactivate: function(event) {
+      console.log("deactivate", this);
+    },
+    over: function(event) {
+      console.log("over", event.target);
+    },
+    out: function(event) {
+      console.log("out", event.target);
+    },
+    update: function(event) {
+      // array to store the task data in
+      var tempArr = [];
+   
+
     // loop over current set of children in sortable list
     $(this).children().each(function() {
       var text = $(this)
@@ -180,15 +184,24 @@ $(".card .list-group").sortable({
         .text()
         .trim();
 
-      console.log(text, date);
+      // add task data to the temp array as an object
+      tempArr.push({
+        text: text,
+        date: date
+      });
+      console.log(tempArr);
     });
-  }
+  },
 });
+
+
+
 
 
 // modal was triggered
 $("#task-form-modal").on("show.bs.modal", function() {
   // clear values
+  console.log("inside onclick")
   $("#modalTaskDescription, #modalDueDate").val("");
 });
 
@@ -203,6 +216,7 @@ $("#task-form-modal .btn-primary").click(function() {
   // get form values
   var taskText = $("#modalTaskDescription").val();
   var taskDate = $("#modalDueDate").val();
+  console.log(taskText, taskDate)
 
   if (taskText && taskDate) {
     createTask(taskText, taskDate, "toDo");
